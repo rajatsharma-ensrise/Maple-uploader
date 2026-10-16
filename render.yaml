@@ -1,0 +1,32 @@
+# Render Blueprint — Render Dashboard → New → Blueprint → is repo ko select karo.
+# Secret values (sync: false) Render deploy ke time poochega.
+services:
+  - type: web
+    name: maple-uploader
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    # 1 worker zaroori hai: upload ka status, live logs aur OTP memory mein rehte hain
+    startCommand: gunicorn app:app --workers 1 --threads 8 --timeout 0 --bind 0.0.0.0:${PORT:-10000}
+    healthCheckPath: /healthz
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: FLASK_SECRET_KEY
+        generateValue: true
+      - key: SHOPIFY_SHOP
+        value: maplestore-in
+      - key: SHOPIFY_ACCESS_TOKEN
+        sync: false
+      - key: GOOGLE_API_KEY
+        sync: false
+      - key: SENDER_EMAIL
+        sync: false
+      - key: SENDER_NAME
+        value: Maple Uploader
+      - key: BREVO_API_KEY
+        sync: false
+      - key: OTP_EXPIRY_SECONDS
+        value: "300"
+      - key: SESSION_TIMEOUT_MINUTES
+        value: "30"

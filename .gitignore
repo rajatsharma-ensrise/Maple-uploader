@@ -1,0 +1,13 @@
+# Secrets — kabhi push mat karna
+.env
+
+# Local Python
+venv/
+.venv/
+__pycache__/
+*.pyc
+
+# Logs / OS files
+logs.txt
+*.log
+.DS_Store
